@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Hi {{name}}</h2>
+    <form action=" {% url "showdata" %} " method="post">
+        {% csrf_token %}
+        <select name="stock" id="" onchange="whaToSearch(this.value)">
+            {% for tickers in stock_list %}
+            <option value="{{ tickers }}">{{ tickers }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <script>
+        const whaToSearch=(value)=>{
+            document.querySelector("form").submit();
+        }
+    </script>
+</body>
+</html>
