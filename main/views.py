@@ -16,11 +16,12 @@ TODAY       = date.today().strftime("%Y-%m-%d")
 
 
 avilableStocs = ['SBI.NS', 'TCS.NS', 'BHEL.NS', 'IOC.NS', 'RVNL.NS', 'IRFC.NS']
-
+showTicker = avilableStocs[:-3]
 
 context = {
     'name':'Dipak',
-    'stock_list': avilableStocs
+    'stock_list': avilableStocs,
+    'showTicker': showTicker
 }
 
 
