@@ -79,7 +79,7 @@
                         {% csrf_token %}
                         <p class="text-center mt-4">Select a Stock and Predict</p>
                         <select class="form-control" name="stock" id
-                            onchange="whatToSearch(this.value)">
+                            onchange="whaToSearch(this.value)">
                             {% for tickers in stock_list %}
                             <option value="{{ tickers }}">{{ tickers }}</option>
                             {% endfor %}
@@ -93,7 +93,7 @@
                     – 2023</p>
         </main>
         <script>
-            const whatToSearch=(value)=>{
+            const whaToSearch=(value)=>{
                 document.querySelector("form").submit();
             }
         </script>
