@@ -54,7 +54,8 @@ ROOT_URLCONF = 'stock_nova.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/"templates"],
+        # 'DIRS': [BASE_DIR/"templates"],
+        'DIRS': [BASE_DIR/"novafront/dist"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,5 +125,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Added By DIPAK
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    # BASE_DIR / "static",
+    BASE_DIR/"novafront/dist/assets"
 ]
