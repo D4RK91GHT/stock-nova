@@ -1,21 +1,8 @@
 from django.db import models # type: ignore
-from django.utils import timezone # type: ignore
 import yfinance as yf # type: ignore
-
 import plotly.graph_objs as go # type: ignore
 from plotly.io import to_json # type: ignore
 from plotly.offline import plot # type: ignore
-
-
-class RegisterUser(models.Model):
-    id = models.AutoField(primary_key=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=120)
-    registration_time = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.email
-
 
 
 # Create your models here.
