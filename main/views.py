@@ -1,10 +1,14 @@
 import json
-from django.contrib.auth import authenticate, login # type: ignore
+from django.contrib.auth import authenticate, login, logout # type: ignore
 from django.http import JsonResponse # type: ignore
 from django.middleware.csrf import get_token # type: ignore
-from .data import allTickers, predections
+from .data import *
+from .models import *
+from django.contrib.auth import get_user_model # type: ignore
 # from ..novausers.novaforms import UserRegistrationForm
 # from .models import RegisterUser
+
+User = get_user_model()
 
 # ==================================================
 
