@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'novausers.Users'
+# AUTH_USER_MODEL = 'novausers.CustomUser'
 
 # Application definition
 
@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'main',
-    'novausers',
+    # 'novausers',
 ]
 
 MIDDLEWARE = [
@@ -86,12 +86,22 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'stocknova',
+        # 'USER': 'root',
+        # 'PASSWORD': 'root',
+        # 'HOST':'localhost',
+        # 'PORT':'3308',
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'stocknova',
+        'NAME': 'stock_nova_api',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'HOST':'localhost',
-        'PORT':'3308',
+        'PORT':'3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+            'init_command': 'SET default_storage_engine=INNODB',
+            }
     }
 }
 
