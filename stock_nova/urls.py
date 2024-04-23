@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from novausers.views import register_view, login_view
+from novauser.views import *
 
 urlpatterns = [
-    # path('register/', register_view, name="register"),
-    # path('login/', login_view, name="register"),
+    path('register/', register_view, name="register"),
+    path('login/', login_view, name="register"),
+    # path('checklogin/', check_login, name="register"),
     path('', include('main.urls')),
     path('admin/', admin.site.urls),
 ]
