@@ -51,8 +51,8 @@ def login_view(request):
         if user is not None:
             # Login the user
             login(request, user)
-            userData = CustomUserManager.get_active_sessions(user)
-            print(userData)
+            # userData = CustomUserManager.get_active_sessions(user)
+            # print(userData)
             return JsonResponse({'message': 'Login successful', 'user_id': user.id})
         else:
             # Authentication failed
