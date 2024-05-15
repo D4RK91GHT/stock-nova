@@ -1,9 +1,10 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, AnonymousUser
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from .models import CustomUser
 from .manager import CustomUserManager
 
@@ -63,16 +64,23 @@ def login_view(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-# def check_login(request):
-#     try:
-#         if request.user.is_authenticated:
-#             # User is logged in
-#             message = "You are logged in as " + request.user.username
-#         else:
-#             # User is not logged in
-#             message = "You are not logged in"
-#         print(message)
-#         return JsonResponse({"status": request.user.is_authenticated, "message": message})
-#     except Exception as e:
-#         # Handle any exceptions
-#         return JsonResponse({"status": False, "message": "An error occurred: " + str(e)})
+@login_required
+def check_login(request):
+    try:
+        if request.user.is_authenticated:
+            # User is logged in
+            message = "You are logged in as " + request.user.email
+        else:
+            # User is not logged in
+            message = "You are not logged in"
+        return JsonResponse({"status": False, "message": message})
+    except Exception as e:
+        # Handle any exceptions
+        return JsonResponse({"status": False, "message": "An error occurred: " + str(e)})
+    
+
+def logout_view(request):
+    logout(request)
+    # Redirect to a page after logout, for example, the homepage
+    return JsonResponse({"status": True, "message": "Logged Out Sucessfully!"})
+    

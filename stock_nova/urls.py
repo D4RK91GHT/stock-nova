@@ -17,11 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from novauser.views import *
+from main.views import *
 
 urlpatterns = [
-    path('register/', register_view, name="register"),
-    path('login/', login_view, name="register"),
-    # path('checklogin/', check_login, name="register"),
-    path('', include('main.urls')),
+
+
+
+    path('register/', register_view, name="tickers"),
+    path('login/', login_view, name="login"),
+    path('checklogin/', check_login, name="check_login"),
+    path('logout/', logout_view, name="logout"),
+       
+    path('tickers/', tickerList, name="tickers"),
+    path('showdata/', showdata, name='showdata'),
+    path('cstoken/', get_csrf_token, name='showdata'),
+
     path('admin/', admin.site.urls),
 ]
