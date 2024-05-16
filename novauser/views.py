@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser
+from .models import CustomUser, Wishlist
 from .manager import CustomUserManager
 
 # @csrf_exempt
@@ -73,7 +73,7 @@ def check_login(request):
         else:
             # User is not logged in
             message = "You are not logged in"
-        return JsonResponse({"status": False, "message": message})
+        return JsonResponse({"status": True, "message": message})
     except Exception as e:
         # Handle any exceptions
         return JsonResponse({"status": False, "message": "An error occurred: " + str(e)})
@@ -84,3 +84,24 @@ def logout_view(request):
     # Redirect to a page after logout, for example, the homepage
     return JsonResponse({"status": True, "message": "Logged Out Sucessfully!"})
     
+
+
+
+@login_required
+def add_to_wishlist(request):
+    if request.method == 'POST':
+        ticker = request.POST.get('ticker')
+        user = request.user
+        Wishlist.objects.add_to_wishlist(ticker=ticker, user=user)
+        return JsonResponse({'status': True})
+    return JsonResponse({'status': False})
+
+
+@login_required
+def remove_from_wishlist(request):
+    if request.method == 'POST':
+        ticker = request.POST.get('ticker')
+        user = request.user
+        success = Wishlist.objects.remove_from_wishlist(ticker=ticker, user=user)
+        return JsonResponse({'status': success})
+    return JsonResponse({'status': False})

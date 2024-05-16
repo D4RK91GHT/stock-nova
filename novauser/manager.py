@@ -1,7 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.sessions.models import Session
 from django.utils import timezone
-
+from django.db import models
 class CustomUserManager(BaseUserManager):
 
     # Creates and saves a regular user with the given email and password.
@@ -54,3 +54,17 @@ class CustomUserManager(BaseUserManager):
         active_sessions = session_model.filter(expire_date__gte=current_time, session_data__contains=user_id_str)
 
         return active_sessions
+
+
+class WishlistManager(models.Manager):
+    def add_to_wishlist(self, ticker, user):
+        wishlist_item, created = self.get_or_create(ticker=ticker, user=user)
+        return wishlist_item, created
+
+    def remove_from_wishlist(self, ticker, user):
+        try:
+            wishlist_item = self.get(ticker=ticker, user=user)
+            wishlist_item.delete()
+            return True
+        except Wishlist.DoesNotExist:
+            return False

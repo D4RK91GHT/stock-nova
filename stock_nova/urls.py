@@ -27,6 +27,9 @@ urlpatterns = [
     path('login/', login_view, name="login"),
     path('checklogin/', check_login, name="check_login"),
     path('logout/', logout_view, name="logout"),
+
+    path('addwish/', add_to_wishlist, name="addwish"),
+    path('removeWish/', remove_from_wishlist, name="removeWish"),
        
     path('tickers/', tickerList, name="tickers"),
     path('showdata/', showdata, name='showdata'),
