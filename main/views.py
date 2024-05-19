@@ -64,7 +64,8 @@ User = get_user_model()
 # ==================================================
 
 def tickerList(request):
-    return JsonResponse(allTickers, safe=False)
+    allTickers = nse_list()
+    return JsonResponse({"tickers": allTickers}, safe=False)
 
 # ==================================================
 

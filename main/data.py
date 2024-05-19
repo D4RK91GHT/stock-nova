@@ -8,6 +8,7 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 import matplotlib.pyplot as plt
 from main.models import RawData,ChartGraphs
+import pandas as pd
 
 APPTITLE    = "Stock Nova"
 START       = "2015-01-01"
@@ -15,11 +16,19 @@ TODAY       = date.today().strftime("%Y-%m-%d")
 
 
 
-
-rawdata = ['SBIN.NS', 'TCS.NS', 'BHEL.NS', 'IOC.NS', 'RVNL.NS', 'IRFC.NS']
-
-# Convert list to JSON
-allTickers = json.dumps(rawdata)
+def nse_list():
+    
+    # Load the CSV file
+    nse_stocks_df = pd.read_csv('static/NSELIST.csv')
+    
+    # Trim whitespace from headers
+    nse_stocks_df.columns = nse_stocks_df.columns.str.strip()
+    
+    # Convert DataFrame to list of dictionaries, including required columns
+    stocks_list = nse_stocks_df[['SYMBOL', 'NAME OF COMPANY', 'SERIES', 'DATE OF LISTING', 'ISIN NUMBER']].to_dict(orient='records')
+    
+    # Return the data as a JSON response
+    return stocks_list
 
 
 # =======================================
