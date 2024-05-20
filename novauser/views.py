@@ -36,32 +36,33 @@ def register_view(request):
 # @csrf_exempt
 @require_POST
 def login_view(request):
-    try:
-        # Extract email and password from POST request
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+    if request.method == "POST":
+        try:
+            # Extract email and password from POST request
+            email = request.POST.get('email')
+            password = request.POST.get('password')
 
-        # Check if email and password are provided
-        if not email or not password:
-            return JsonResponse({'error': 'Email and password are required'}, status=400)
+            # Check if email and password are provided
+            if not email or not password:
+                return JsonResponse({'status': False, 'message': 'Email and password are required'})
 
-        # Authenticate user
-        user = authenticate(email=email, password=password)
+            # Authenticate user
+            user = authenticate(email=email, password=password)
 
-        # Check if authentication was successful
-        if user is not None:
-            # Login the user
-            login(request, user)
-            # userData = CustomUserManager.get_active_sessions(user)
-            # print(userData)
-            return JsonResponse({'message': 'Login successful', 'user_id': user.id})
-        else:
-            # Authentication failed
-            return JsonResponse({'error': 'Invalid email or password'}, status=400)
+            # Check if authentication was successful
+            if user is not None:
+                # Login the user
+                login(request, user)
+                return JsonResponse({'status': True, 'message': 'Login successful', 'user_id': user.id})
+            else:
+                # Authentication failed
+                return JsonResponse({'status': False, 'message': 'Invalid email or password'})
 
-    except Exception as e:
-        # Handle other exceptions
-        return JsonResponse({'error': str(e)}, status=500)
+        except Exception as e:
+            # Handle other exceptions
+            return JsonResponse({'status': False, 'error': str(e)})
+    else:
+        return JsonResponse({'status': False,'message': 'Request method is not allow!'})
 
 
 @login_required
