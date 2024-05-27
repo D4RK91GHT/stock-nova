@@ -38,8 +38,6 @@ def predections(selected_stock, days=90):
     data = RawData.load_data(selected_stock, START, TODAY)
     oldData = data.tail()
     timeSeries = ChartGraphs.plot_raw_data(data)
-    # timeSeries = json.loads(timeSeries)
-    # print(timeSeries)
 
     df_train = data[['Date', 'Close']]
     df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
@@ -52,16 +50,12 @@ def predections(selected_stock, days=90):
     predictedData = forecast.tail()
 
     fig1 = plot_plotly(m, forecast)
+    fig1.update_layout(
+        autosize=True,
+        xaxis_title='Time',
+        yaxis_title='Stock Price',
+    )
     predictedGraph = fig1.to_json()
-
-    # plt.switch_backend('Agg')
-
-    # fig2 = m.plot_components(forecast)
-    # buf = BytesIO()
-    # fig2.savefig(buf, format='png', bbox_inches='tight')
-    # buf.seek(0)
-    # fig2_base64 = base64.b64encode(buf.read()).decode('utf-8')
-    # plt.close(fig2)
 
     plt.switch_backend('Agg')
 
