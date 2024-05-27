@@ -13,6 +13,7 @@ import pandas as pd
 APPTITLE    = "Stock Nova"
 START       = "2015-01-01"
 TODAY       = date.today().strftime("%Y-%m-%d")
+# TODAY       = "2023-01-01"
 
 
 
@@ -25,15 +26,15 @@ def nse_list():
     nse_stocks_df.columns = nse_stocks_df.columns.str.strip()
     
     # Convert DataFrame to list of dictionaries, including required columns
-    stocks_list = nse_stocks_df[['SYMBOL', 'NAME OF COMPANY', 'SERIES', 'DATE OF LISTING', 'ISIN NUMBER']].to_dict(orient='records')
+    stocks_list = nse_stocks_df[['SYMBOL', 'NAME_OF_COMPANY', 'SERIES', 'DATE_OF_LISTING', 'ISIN_NUMBER']].to_dict(orient='records')
     
     # Return the data as a JSON response
     return stocks_list
 
 
 # =======================================
-def predections(selected_stock):
-    period = 1 * 365
+def predections(selected_stock, days=90):
+    period = 1 * int(days)
     data = RawData.load_data(selected_stock, START, TODAY)
     oldData = data.tail()
     timeSeries = ChartGraphs.plot_raw_data(data)

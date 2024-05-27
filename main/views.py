@@ -73,7 +73,9 @@ def showdata(request):
     try:
         if request.method == "POST":
             symbol = request.POST.get('symbol')
-            response_data = predections(symbol)
+            period = request.POST.get('period')
+
+            response_data = predections(symbol, days=period)
             return JsonResponse(response_data)
         else:
             errcontext = {
