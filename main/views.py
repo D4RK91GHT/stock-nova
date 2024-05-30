@@ -69,6 +69,22 @@ def tickerList(request):
 
 # ==================================================
 
+def marketChart(request):
+    try:
+        if request.method == "POST":
+            symbol = request.POST.get('symbol')
+            response_data = currentMarket(symbol)
+
+            return JsonResponse(response_data)
+        else:
+            errcontext = {'custom_message': 'Nothing Passed'}
+            return JsonResponse(errcontext)
+    except Exception as e:
+        # Catch any exceptions and return an empty JSON response or handle it appropriately
+        return JsonResponse({'error': str(e)}, status=500)
+# ==================================================
+
+
 def showdata(request):
     try:
         if request.method == "POST":

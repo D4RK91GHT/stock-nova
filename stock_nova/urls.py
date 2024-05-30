@@ -32,6 +32,7 @@ urlpatterns = [
     path('removeWish/', remove_from_wishlist, name="removeWish"),
        
     path('tickers/', tickerList, name="tickers"),
+    path('current/', marketChart, name="marketChart"),
     path('showdata/', showdata, name='showdata'),
     path('cstoken/', get_csrf_token, name='showdata'),
 

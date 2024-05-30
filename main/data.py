@@ -7,12 +7,15 @@ from io import BytesIO
 from prophet import Prophet
 from prophet.plot import plot_plotly
 import matplotlib.pyplot as plt
-from main.models import RawData,ChartGraphs
+from main.models import RawData,ChartGraphs,ApexCharts
 import pandas as pd
+import yfinance as yf # type: ignore
 
 APPTITLE    = "Stock Nova"
 START       = "2015-01-01"
 TODAY       = date.today().strftime("%Y-%m-%d")
+# TODAY       = "2023-01-01"
+
 # TODAY       = "2023-01-01"
 
 
@@ -30,6 +33,22 @@ def nse_list():
     
     # Return the data as a JSON response
     return stocks_list
+
+
+
+def currentMarket(selected_stock):
+    data = RawData.load_data(selected_stock, "2023-01-01", TODAY)
+    marketData = ApexCharts.plot_raw_data_apex(data)
+    stock = yf.Ticker(selected_stock)
+    info = stock.info
+    context = {
+        'res': {
+            'market': marketData,
+            'info': info
+        }
+            
+    }
+    return context
 
 
 # =======================================
