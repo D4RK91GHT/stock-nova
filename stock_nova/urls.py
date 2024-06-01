@@ -34,7 +34,11 @@ urlpatterns = [
     path('tickers/', tickerList, name="tickers"),
     path('current/', marketChart, name="marketChart"),
     path('showdata/', showdata, name='showdata'),
-    path('cstoken/', get_csrf_token, name='showdata'),
+    path('predicted-graph/', predictedGraphOnly, name='Predicted Graph'),
+
+
+    
+    # path('cstoken/', get_csrf_token, name='showdata'),
 
     path('admin/', admin.site.urls),
 ]

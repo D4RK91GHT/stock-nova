@@ -105,6 +105,24 @@ def showdata(request):
 # ===================================================
 
 
+def predictedGraphOnly(request):
+    try:
+        if request.method == "POST":
+            symbol = request.POST.get('symbol')
+            period = request.POST.get('period')
+
+            response_data = predictedGraph(symbol, days=period)
+            return JsonResponse(response_data)
+        else:
+            errcontext = {
+                'custom_message': 'Nothing Passed'
+            }
+            return JsonResponse(errcontext, safe=False)
+    except Exception as e:
+        # Catch any exceptions and return an empty JSON response or handle it appropriately
+        return JsonResponse({'error': str(e)}, status=500)
+
+# ===================================================
 def get_csrf_token(request):
     token = get_token(request)
     return JsonResponse({'csrfToken': token})

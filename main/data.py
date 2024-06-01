@@ -7,7 +7,7 @@ from io import BytesIO
 from prophet import Prophet
 from prophet.plot import plot_plotly
 import matplotlib.pyplot as plt
-from main.models import RawData,ChartGraphs,ApexCharts
+from main.models import RawData, ChartGraphs, ApexCharts, GetIcon
 import pandas as pd
 import yfinance as yf # type: ignore
 
@@ -41,8 +41,13 @@ def currentMarket(selected_stock):
     marketData = ApexCharts.plot_raw_data_apex(data)
     stock = yf.Ticker(selected_stock)
     info = stock.info
+    
+    # the ticker symbol of the stock you're selected
+    logo_url = GetIcon.get_stock_logo(selected_stock)
+
     context = {
         'res': {
+            'logo': logo_url,
             'market': marketData,
             'info': info
         }
@@ -66,7 +71,7 @@ def predections(selected_stock, days=90):
     future = m.make_future_dataframe(periods=period)
     forecast = m.predict(future)
 
-    predictedData = forecast.tail()
+    predictedData = forecast
 
     fig1 = plot_plotly(m, forecast)
     fig1.update_layout(
@@ -87,13 +92,51 @@ def predections(selected_stock, days=90):
     fig2_base64 = base64.b64encode(buf.read()).decode('utf-8')
 
 
+    # the ticker symbol of the stock you're selected
+    logo_url = GetIcon.get_stock_logo(selected_stock)
+    print(f"Logo URL for {selected_stock}: {logo_url}")
+
     # Prepare the data to be returned as JSON
     context = {
         # 'data' : selected_stock
+        'info': {'logo': logo_url}, 
         'data': oldData.to_dict(),
         'timeSeries': timeSeries,
         'predictedData': predictedData.to_dict(),
         'predictedGraph': predictedGraph,
         'predictedComponents': fig2_base64
+        }
+    return context
+
+
+def predictedGraph(selected_stock, days=90):
+    period = 1 * int(days)
+    data = RawData.load_data(selected_stock, START, TODAY)
+   
+    df_train = data[['Date', 'Close']]
+    df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+
+    m = Prophet()
+    m.fit(df_train)
+    future = m.make_future_dataframe(periods=period)
+    forecast = m.predict(future)
+
+    fig1 = plot_plotly(m, forecast)
+    fig1.update_layout(
+        autosize=True,
+        xaxis_title='Time',
+        yaxis_title='Stock Price',
+    )
+    predictedGraph = fig1.to_json()
+
+    # the ticker symbol of the stock you're selected
+    logo_url = GetIcon.get_stock_logo(selected_stock)
+    print(f"Logo URL for {selected_stock}: {logo_url}")
+
+    # Prepare the data to be returned as JSON
+    context = {
+        # 'data' : selected_stock
+        'info': {'logo': logo_url},
+        'graph': predictedGraph,
         }
     return context

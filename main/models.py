@@ -4,9 +4,25 @@ import plotly.graph_objs as go # type: ignore
 from plotly.io import to_json # type: ignore
 from plotly.offline import plot # type: ignore
 import json
+import requests
 
 
 # Create your models here.
+class GetIcon():
+    def get_stock_logo(symbol):
+        try:
+            # Fetch stock information
+            ticker = yf.Ticker(symbol)
+            
+            # Get the info dictionary
+            info = ticker.info
+            
+            # Extract the logo URL
+            logo_url = info.get('logo_url', 'Logo URL not found')
+            
+            return logo_url
+        except Exception as e:
+            return f"An error occurred: {e}"
 
 class RawData():
     # This Function is created to fetch data of the selected stock/ticker
