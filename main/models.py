@@ -32,58 +32,6 @@ class ChartGraphs():
 
 class ApexCharts():
 
-        
-    # def plot_raw_data_apex(data):
-    #     # Prepare data for ApexCharts
-    #     open_data = [{'x': str(date), 'y': open_price} for date, open_price in zip(data['Date'], data['Open'])]
-    #     close_data = [{'x': str(date), 'y': close_price} for date, close_price in zip(data['Date'], data['Close'])]
-
-    #     # Define ApexCharts options
-    #     apex_options = {
-    #         'chart': {
-    #             'type': 'line',
-    #             'height': 350,
-    #             'zoom': {
-    #                 'enabled': True
-    #             }
-    #         },
-    #         'dataLabels': {
-    #             'enabled': False
-    #         },
-    #         'stroke': {
-    #             'curve': 'smooth'
-    #         },
-    #         'title': {
-    #             'text': 'Time Series data with Rangeslider',
-    #             'align': 'left'
-    #         },
-    #         'xaxis': {
-    #             'type': 'datetime',
-    #             'title': {
-    #                 'text': '-- Time --'
-    #             }
-    #         },
-    #         'yaxis': {
-    #             'title': {
-    #                 'text': '-- Stock Price --'
-    #             }
-    #         },
-    #         'series': [
-    #             {
-    #                 'name': 'Stock Open',
-    #                 'data': open_data
-    #             },
-    #             {
-    #                 'name': 'Stock Close',
-    #                 'data': close_data
-    #             }
-    #         ]
-    #     }
-
-    #     # Convert the options to JSON format
-    #     plot_json = json.dumps(apex_options)
-    #     return plot_json
-
     def plot_raw_data_apex(data):
         # Prepare data for ApexCharts
         open_data = [{'x': str(date), 'y': open_price} for date, open_price in zip(data['Date'], data['Open'])]
@@ -91,25 +39,6 @@ class ApexCharts():
 
         # Define ApexCharts options
         apex_options = {
-        #     'chart': {
-        #         'type': 'area',
-        #         'height': 430,
-        #         'zoom': {
-        #             'enabled': True
-        #         }
-        #     },
-        #     'dataLabels': {
-        #         'enabled': False
-        #     },
-        #     'stroke': {
-        #         'curve': 'smooth'
-        #     },
-        #     'xaxis': {
-        #         'type': 'datetime',
-        #     },
-        #    'yaxis': {
-        #         'show': False,
-        #     },
             'chart': {
                 'parentHeightOffset': 0,
                 'type': 'area',
