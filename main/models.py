@@ -20,8 +20,8 @@ class ChartGraphs():
 
     def plot_raw_data(data):
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="Stock Open"))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="Stock Close"))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="Opening Price"))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="Closing Price"))
         fig.layout.update(title_text='Time Series data with Rangeslider',  xaxis_title='-- Time --',
         yaxis_title='-- Stock Price --',xaxis_rangeslider_visible=True)
     
@@ -115,11 +115,14 @@ class ApexCharts():
                 'type': 'area',
                 # 'toolbar': {'show': False},
                 # 'stacked': True,
+                'toolbar': {
+                    'show': False
+                },
             },
             'colors': ['#14de14', '#506fd9'],
             'grid': {
                 'borderColor': 'rgba(72,94,144, 0.08)',
-                'padding': {'top': -20},
+                'padding': {'top': 30},
                 'yaxis': {
                     'lines': {'show': False},
                 },
@@ -154,11 +157,11 @@ class ApexCharts():
             # 'tooltip': {'enabled': False},
             'series': [
                 {
-                    'name': 'Stock Open',
+                    'name': 'Opening Price',
                     'data': open_data
                 },
                 {
-                    'name': 'Stock Close',
+                    'name': 'Closing Price',
                     'data': close_data
                 }
             ]
