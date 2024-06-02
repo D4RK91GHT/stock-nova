@@ -38,7 +38,11 @@ class ChartGraphs():
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="Opening Price"))
         fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="Closing Price"))
-        fig.layout.update( xaxis_title='-- Time --', yaxis_title='-- Stock Price --', xaxis_rangeslider_visible=True)
+        fig.layout.update( 
+            xaxis_title='-- Time --', 
+            yaxis_title='-- Stock Price --', 
+            xaxis_rangeslider_visible=True
+            )
         
         # Convert Plotly chart to JSON format
         plot_json = to_json(fig)

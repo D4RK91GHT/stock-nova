@@ -60,7 +60,7 @@ def currentMarket(selected_stock):
 def predections(selected_stock, days=90):
     period = 1 * int(days)
     data = RawData.load_data(selected_stock, START, TODAY)
-    oldData = data.tail()
+    oldData = data
     timeSeries = ChartGraphs.plot_raw_data(data)
 
     df_train = data[['Date', 'Close']]
@@ -94,7 +94,6 @@ def predections(selected_stock, days=90):
 
     # the ticker symbol of the stock you're selected
     logo_url = GetIcon.get_stock_logo(selected_stock)
-    print(f"Logo URL for {selected_stock}: {logo_url}")
 
     # Prepare the data to be returned as JSON
     context = {
