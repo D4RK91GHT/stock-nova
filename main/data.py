@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 import base64
@@ -137,5 +138,50 @@ def predictedGraph(selected_stock, days=90):
         # 'data' : selected_stock
         'info': {'logo': logo_url},
         'graph': predictedGraph,
+        }
+    return context
+
+
+
+# =======================================
+def backTesting(selected_stock, dataStartFrom, dataUpto, days=90):
+    period = 1 * int(days)
+
+    # Parse the date string into a datetime object
+    date_obj = datetime.strptime(dataUpto, '%Y-%m-%d')
+
+    # Add period to the date
+    new_date_obj = date_obj + timedelta(days=period)
+
+    # Format the new date back into a string
+    showUpto = new_date_obj.strftime('%Y-%m-%d')
+    oldData = RawData.load_data(selected_stock, dataUpto, showUpto) #actual data 
+    timeSeries = ChartGraphs.plot_raw_data(oldData) # actual chart
+    
+    data = RawData.load_data(selected_stock, dataStartFrom, dataUpto)
+    df_train = data[['Date', 'Close']]
+    df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+
+    m = Prophet()
+    m.fit(df_train)
+    future = m.make_future_dataframe(periods=period)
+    forecast = m.predict(future)
+
+    predictedData = forecast
+
+    fig1 = plot_plotly(m, forecast)
+    fig1.update_layout(
+        autosize=True,
+        xaxis_title='Time',
+        yaxis_title='Stock Price',
+    )
+    predictedGraph = fig1.to_json()
+
+    # Prepare the data to be returned as JSON
+    context = {
+        'data': oldData.to_dict(),
+        'timeSeries': timeSeries,
+        'predictedData': predictedData.to_dict(),
+        'predictedGraph': predictedGraph,
         }
     return context

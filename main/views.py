@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from django.contrib.auth import authenticate, login, logout # type: ignore
 from django.http import JsonResponse # type: ignore
 from django.middleware.csrf import get_token # type: ignore
@@ -122,7 +123,35 @@ def predictedGraphOnly(request):
         # Catch any exceptions and return an empty JSON response or handle it appropriately
         return JsonResponse({'error': str(e)}, status=500)
 
+
+
+# ==================================================
+
+
+def backTestView(request):
+    try:
+        if request.method == "POST":
+            symbol     = request.POST.get('symbol')
+            startDate  = request.POST.get('start-date')
+            endDate    = request.POST.get('end-date')
+            period     = request.POST.get('period')
+
+            startDate = datetime.strptime(startDate, '%Y-%m-%d').strftime('%Y-%m-%d')
+            endDate = datetime.strptime(endDate, '%Y-%m-%d').strftime('%Y-%m-%d')
+
+            response_data = backTesting(symbol, startDate, endDate, days=period)
+            return JsonResponse(response_data)
+        else:
+            errcontext = {
+                'custom_message': 'Nothing Passed'
+            }
+            return JsonResponse(errcontext)
+    except Exception as e:
+        # Catch any exceptions and return an empty JSON response or handle it appropriately
+        return JsonResponse({'error': str(e)}, status=500)
+    
 # ===================================================
+
 def get_csrf_token(request):
     token = get_token(request)
     return JsonResponse({'csrfToken': token})

@@ -35,6 +35,7 @@ urlpatterns = [
     path('current/', marketChart, name="marketChart"),
     path('showdata/', showdata, name='showdata'),
     path('predicted-graph/', predictedGraphOnly, name='Predicted Graph'),
+    path('back-test/', backTestView, name='Back Test'),
 
 
     
