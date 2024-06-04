@@ -4,22 +4,45 @@ from django.utils import timezone
 from django.db import models
 class CustomUserManager(BaseUserManager):
 
-    # Creates and saves a regular user with the given email and password.
-    def create_user(self, email, password=None, **extra_fields):
+    # # Creates and saves a regular user with the given email and password.
+    # def create_user(self, email, password=None, **extra_fields):
+    #     if not email:
+    #         raise ValueError("The Email field must be set")
+    #     email = self.normalize_email(email)
+    #     username = extra_fields.get('username')
+    #     if username and self.model.objects.filter(username=username).exists():
+    #         raise ValueError("The username already exists")
+    #     user = self.model(email=email, **extra_fields)
+    #     user.set_password(password)
+    #     user.save(using=self._db)
+    #     return user
+
+
+    # # Creates and saves a superuser with the given email and password.
+    # def create_superuser(self, email, password=None, **extra_fields):
+    #     extra_fields.setdefault('is_staff', True)
+    #     extra_fields.setdefault('is_superuser', True)
+
+    #     if extra_fields.get('is_staff') is not True:
+    #         raise ValueError('Superuser must have is_staff=True.')
+    #     if extra_fields.get('is_superuser') is not True:
+    #         raise ValueError('Superuser must have is_superuser=True.')
+
+    #     return self.create_user(email, password, **extra_fields)
+
+    def create_user(self, email, password=None, fname=None, lname=None, **extra_fields):
         if not email:
-            raise ValueError("The Email field must be set")
+            raise ValueError("The Email field can't be empty!")
         email = self.normalize_email(email)
         username = extra_fields.get('username')
         if username and self.model.objects.filter(username=username).exists():
             raise ValueError("The username already exists")
-        user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, fname=fname, lname=lname, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-
-    # Creates and saves a superuser with the given email and password.
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email, password=None, fname=None, lname=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -28,7 +51,8 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(email, password, **extra_fields)
+        return self.create_user(email, password, fname, lname, **extra_fields)
+    
 
 
 

@@ -14,24 +14,26 @@ def register_view(request):
     try:
         # Extract email and password from POST request
         email = request.POST.get('email')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
         password = request.POST.get('password')
 
         # Check if email and password are provided
         if not email or not password:
-            return JsonResponse({'error': 'Email and password are required'}, status=400)
+            return JsonResponse({'error': 'Email and password are required'})
 
         # Create a new user using CustomUserManager
-        user = CustomUser.objects.create_user(email=email, password=password)
+        user = CustomUser.objects.create_user(email=email, password=password, fname=fname, lname=lname)
 
         # If registration is successful, return success response
-        return JsonResponse({'message': 'Registration successful', 'user_id': user.id})
+        return JsonResponse({'status': True, 'message': 'Registration successful', 'user_id': user.id})
 
     except ValueError as ve:
         # Handle validation errors
-        return JsonResponse({'error': str(ve)}, status=400)
+        return JsonResponse({'error': str(ve)})
     except Exception as e:
         # Handle other exceptions
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': str(e)})
 
 # @csrf_exempt
 @require_POST
